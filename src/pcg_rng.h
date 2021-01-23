@@ -40,4 +40,14 @@ static void set_seed(PcgRng* rng, u64 state, u64 increment) {
     get_random_uniform_u32(rng);
 }
 
+static u32 get_random_bounded_u32(PcgRng* rng, u32 bound) {
+    u32 threshold = -bound % bound;
+    for (;;) {
+        u32 r = get_random_uniform_u32(rng);
+        if (threshold < r) {
+            return r % bound;
+        }
+    }
+}
+
 #endif
