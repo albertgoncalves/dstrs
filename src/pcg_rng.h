@@ -27,6 +27,10 @@ static f32 get_random_f32(PcgRng* rng) {
     return ldexpf((f32)get_random_u32(rng), -32);
 }
 
+static f64 get_random_f64(PcgRng* rng) {
+    return ldexp((f64)get_random_u32(rng), -32);
+}
+
 static void set_seed(PcgRng* rng, u64 state, u64 increment) {
     rng->state = 0u;
     rng->increment = (increment << 1u) | 1u;
