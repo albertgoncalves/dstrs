@@ -15,7 +15,7 @@ i32 main(i32 n, const char** args) {
             EXIT_IF(THRESHOLD < size);
             i32 m = sprintf(&buffer[size],
                             "%.6f\n",
-                            (f64)get_random_beta(&rng, 2.0f, 5.0f));
+                            (f64)get_random_beta(&rng, 15.0f, 2.0f));
             EXIT_IF(m < 0);
             size += (usize)m;
         }
