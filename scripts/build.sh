@@ -4,9 +4,8 @@ set -eu
 
 flags=(
     "-fshort-enums"
-    "-fsingle-precision-constant"
     "-march=native"
-    "-O0"
+    "-O3"
     "-static"
     "-Wall"
     "-Wcast-align"
@@ -21,8 +20,8 @@ flags=(
     "-Wextra"
     "-Wfatal-errors"
     "-Wfloat-equal"
-    "-Wformat=2"
     "-Wformat-signedness"
+    "-Wformat=2"
     "-Winline"
     "-Wlogical-op"
     "-Wmissing-declarations"
