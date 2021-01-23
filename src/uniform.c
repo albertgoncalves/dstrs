@@ -2,7 +2,7 @@
 
 #define SIZE_BUFFER 262144
 
-const usize THRESHOLD = SIZE_BUFFER - 128;
+const usize THRESHOLD = SIZE_BUFFER - 64;
 
 i32 main(i32 n, const char** args) {
     EXIT_IF(n < 2);
