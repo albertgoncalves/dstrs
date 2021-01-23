@@ -11,13 +11,11 @@ i32 main(i32 n, const char** args) {
     {
         PcgRng rng = get_rng();
         set_seed(&rng, get_microseconds(), 1);
-        f32 alpha = 2.0f;
-        f32 beta = 5.0f;
         for (usize i = 0; i < 10000; ++i) {
             EXIT_IF(THRESHOLD < size);
             i32 m = sprintf(&buffer[size],
                             "%.6f\n",
-                            (f64)get_random_beta(&rng, alpha, beta));
+                            (f64)get_random_beta(&rng, 2.0f, 5.0f));
             EXIT_IF(m < 0);
             size += (usize)m;
         }

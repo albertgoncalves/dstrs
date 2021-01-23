@@ -13,11 +13,9 @@ i32 main(i32 n, const char** args) {
     {
         PcgRng rng = get_rng();
         set_seed(&rng, get_microseconds(), 1);
-        f32 mu = -2.0f;
-        f32 sigma = 10.0f;
         for (usize i = 0; i < 5000; ++i) {
             EXIT_IF(THRESHOLD < size);
-            PairF32 pair = get_random_normal_pair(&rng, mu, sigma);
+            PairF32 pair = get_random_normal_pair(&rng, -2.0f, 10.0f);
             i32 m = sprintf(&buffer[size], FMT FMT, (f64)pair.a, (f64)pair.b);
             EXIT_IF(m < 0);
             size += (usize)m;
