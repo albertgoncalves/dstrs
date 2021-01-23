@@ -8,7 +8,7 @@
 f32 get_random_gamma(PcgRng*, f32, f32);
 f32 get_random_gamma(PcgRng* rng, f32 alpha, f32 beta) {
     EXIT_IF(alpha <= 0.0f);
-    f32 u = get_random_f32(rng);
+    f32 u = get_random_uniform_f32(rng);
     if (alpha < 1.0f) {
         return get_random_gamma(rng, 1.0f + alpha, beta) *
                powf(u, 1.0f / alpha);

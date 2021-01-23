@@ -15,7 +15,7 @@ static PcgRng get_rng(void) {
     };
 }
 
-static u32 get_random_u32(PcgRng* rng) {
+static u32 get_random_uniform_u32(PcgRng* rng) {
     const u64 state = rng->state;
     rng->state = (state * 6364136223846793005ull) + (rng->increment | 1u);
     const u32 xor_shift = (u32)(((state >> 18u) ^ state) >> 27u);
@@ -24,20 +24,20 @@ static u32 get_random_u32(PcgRng* rng) {
 }
 
 // NOTE: See `https://www.pcg-random.org/using-pcg-c-basic.html#generating-doubles`.
-static f32 get_random_f32(PcgRng* rng) {
-    return ldexpf((f32)get_random_u32(rng), -32);
+static f32 get_random_uniform_f32(PcgRng* rng) {
+    return ldexpf((f32)get_random_uniform_u32(rng), -32);
 }
 
-static f64 get_random_f64(PcgRng* rng) {
-    return ldexp((f64)get_random_u32(rng), -32);
+static f64 get_random_uniform_f64(PcgRng* rng) {
+    return ldexp((f64)get_random_uniform_u32(rng), -32);
 }
 
 static void set_seed(PcgRng* rng, u64 state, u64 increment) {
     rng->state = 0u;
     rng->increment = (increment << 1u) | 1u;
-    get_random_u32(rng);
+    get_random_uniform_u32(rng);
     rng->state += state;
-    get_random_u32(rng);
+    get_random_uniform_u32(rng);
 }
 
 #endif

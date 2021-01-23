@@ -13,7 +13,7 @@ static u32 get_random_poisson(PcgRng* rng, f64 lambda) {
     f64 p = 1.0;
     do {
         ++k;
-        p *= get_random_f64(rng);
+        p *= get_random_uniform_f64(rng);
         while (p < 1.0) {
             if (STEP < l) {
                 p *= exp(STEP);
