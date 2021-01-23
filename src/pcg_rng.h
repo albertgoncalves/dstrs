@@ -23,6 +23,7 @@ static u32 get_random_u32(PcgRng* rng) {
     return (xor_shift >> rotate) | (xor_shift << ((-rotate) & 31u));
 }
 
+// NOTE: See `https://www.pcg-random.org/using-pcg-c-basic.html#generating-doubles`.
 static f32 get_random_f32(PcgRng* rng) {
     return ldexpf((f32)get_random_u32(rng), -32);
 }
