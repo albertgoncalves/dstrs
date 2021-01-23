@@ -8,6 +8,7 @@
 // NOTE: See
 // `https://en.wikipedia.org/wiki/Poisson_distribution#Random_drawing_from_the_Poisson_distribution`.
 static u32 get_random_poisson(PcgRng* rng, f64 lambda) {
+    EXIT_IF(lambda <= 0.0);
     f64 l = lambda;
     u32 k = 0;
     f64 p = 1.0;
