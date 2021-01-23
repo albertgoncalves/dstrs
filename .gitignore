@@ -1,0 +1,11 @@
+*
+!.gitignore
+!shell.nix
+!.shellhook
+!.clang-format
+!src/
+!*.h
+!*.c
+!scripts/
+!*.sh
+!*.py

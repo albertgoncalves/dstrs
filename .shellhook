@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+alias open="feh"
+
+export WD=$PWD
+
+for x in bin out; do
+    if [ ! -d "$WD/$x" ]; then
+        mkdir "$WD/$x"
+    fi
+done
