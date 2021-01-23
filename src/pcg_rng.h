@@ -23,6 +23,14 @@ static u32 get_random_uniform_u32(PcgRng* rng) {
     return (xor_shift >> rotate) | (xor_shift << ((-rotate) & 31u));
 }
 
+static void set_seed(PcgRng* rng, u64 state, u64 increment) {
+    rng->state = 0u;
+    rng->increment = (increment << 1u) | 1u;
+    get_random_uniform_u32(rng);
+    rng->state += state;
+    get_random_uniform_u32(rng);
+}
+
 // NOTE: See `https://www.pcg-random.org/using-pcg-c-basic.html#generating-doubles`.
 static f32 get_random_uniform_f32(PcgRng* rng) {
     return ldexpf((f32)get_random_uniform_u32(rng), -32);
@@ -32,16 +40,9 @@ static f64 get_random_uniform_f64(PcgRng* rng) {
     return ldexp((f64)get_random_uniform_u32(rng), -32);
 }
 
-static void set_seed(PcgRng* rng, u64 state, u64 increment) {
-    rng->state = 0u;
-    rng->increment = (increment << 1u) | 1u;
-    get_random_uniform_u32(rng);
-    rng->state += state;
-    get_random_uniform_u32(rng);
-}
-
+// NOTE: See `https://github.com/imneme/pcg-c-basic/blob/master/pcg_basic.c#L79-L109`.
 static u32 get_random_bounded_u32(PcgRng* rng, u32 bound) {
-    u32 threshold = -bound % bound;
+    u32 threshold = (-bound) % bound;
     for (;;) {
         u32 r = get_random_uniform_u32(rng);
         if (threshold < r) {
