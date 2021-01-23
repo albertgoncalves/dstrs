@@ -25,7 +25,7 @@ typedef struct {
     f32 b;
 } PairF32;
 
-#define PI 3.1415926535897932385f
+#define PI_F32 3.1415926535897932385f
 
 #define EXIT_IF(condition)         \
     if (condition) {               \
