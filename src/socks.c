@@ -16,7 +16,7 @@ typedef struct {
 #define SIZE_SAMPLE  200
 #define SIZE_BUFFER  262144
 
-const usize THRESHOLD = SIZE_BUFFER - 64;
+const usize THRESHOLD_BUFFER = SIZE_BUFFER - 64;
 
 typedef struct {
     Result results[SIZE_RESULTS];
@@ -94,15 +94,15 @@ i32 main(i32 n, const char** args) {
         {
             usize size = 0;
             for (usize i = 0; i < SIZE_RESULTS; ++i) {
-                EXIT_IF(THRESHOLD < size);
+                EXIT_IF(THRESHOLD_BUFFER < size);
                 if ((memory->results[i].output_singles == OBSERVED_SINGLES) &&
                     (memory->results[i].output_pairs == OBSERVED_PAIRS))
                 {
-                    i32 m = sprintf(&memory->buffer[size],
-                                    "%u\n",
-                                    memory->results[i].input_total);
-                    EXIT_IF(m < 0);
-                    size += (usize)m;
+                    i32 line = sprintf(&memory->buffer[size],
+                                       "%u\n",
+                                       memory->results[i].input_total);
+                    EXIT_IF(line <= 0);
+                    size += (usize)line;
                 }
             }
             set_file(args[1], memory->buffer, size);

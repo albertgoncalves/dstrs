@@ -2,7 +2,7 @@
 
 #define SIZE_BUFFER 262144
 
-const usize THRESHOLD = SIZE_BUFFER - 64;
+const usize THRESHOLD_BUFFER = SIZE_BUFFER - 64;
 
 i32 main(i32 n, const char** args) {
     EXIT_IF(n < 2);
@@ -12,12 +12,12 @@ i32 main(i32 n, const char** args) {
         PcgRng rng = get_rng();
         set_seed(&rng, get_microseconds(), 1);
         for (usize i = 0; i < 10000; ++i) {
-            EXIT_IF(THRESHOLD < size);
-            i32 m = sprintf(&buffer[size],
-                            "%u\n",
-                            get_random_bounded_u32(&rng, 9));
-            EXIT_IF(m < 0);
-            size += (usize)m;
+            EXIT_IF(THRESHOLD_BUFFER < size);
+            i32 line = sprintf(&buffer[size],
+                               "%u\n",
+                               get_random_bounded_u32(&rng, 9));
+            EXIT_IF(line <= 0);
+            size += (usize)line;
         }
     }
     set_file(args[1], buffer, size);

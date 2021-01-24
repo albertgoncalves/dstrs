@@ -2,7 +2,7 @@
 
 #define SIZE_BUFFER 262144
 
-const usize THRESHOLD = SIZE_BUFFER - 64;
+const usize THRESHOLD_BUFFER = SIZE_BUFFER - 64;
 
 i32 main(i32 n, const char** args) {
     EXIT_IF(n < 2);
@@ -16,12 +16,13 @@ i32 main(i32 n, const char** args) {
         // NOTE: $ R
         //       > rgamma(10000, shape = `alpha`, scale = `beta`)
         for (usize i = 0; i < 10000; ++i) {
-            EXIT_IF(THRESHOLD < size);
-            i32 m = sprintf(&buffer[size],
-                            "%.6f\n",
-                            (f64)get_random_gamma(&rng, 1.5f, 1.0f / theta));
-            EXIT_IF(m < 0);
-            size += (usize)m;
+            EXIT_IF(THRESHOLD_BUFFER < size);
+            i32 line =
+                sprintf(&buffer[size],
+                        "%.6f\n",
+                        (f64)get_random_gamma(&rng, 1.5f, 1.0f / theta));
+            EXIT_IF(line <= 0);
+            size += (usize)line;
         }
     }
     set_file(args[1], buffer, size);
