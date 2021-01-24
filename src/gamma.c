@@ -13,6 +13,8 @@ i32 main(i32 n, const char** args) {
         set_seed(&rng, get_microseconds(), 1);
         // NOTE: See `https://en.wikipedia.org/wiki/Gamma_distribution`.
         f32 theta = 2.0f;
+        // NOTE: $ R
+        //       > rgamma(10000, shape = `alpha`, scale = `beta`)
         for (usize i = 0; i < 10000; ++i) {
             EXIT_IF(THRESHOLD < size);
             i32 m = sprintf(&buffer[size],
