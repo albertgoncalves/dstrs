@@ -51,4 +51,15 @@ static u32 get_random_bounded_u32(PcgRng* rng, u32 bound) {
     }
 }
 
+// NOTE: See `https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle`.
+#define DEFINE_SHUFFLE(fn, type)                      \
+    static void fn(PcgRng* rng, type* array, u32 n) { \
+        for (u32 i = n - 1; 0 < i; --i) {             \
+            u32  j = get_random_bounded_u32(rng, i);  \
+            type t = array[i];                        \
+            array[i] = array[j];                      \
+            array[j] = t;                             \
+        }                                             \
+    }
+
 #endif

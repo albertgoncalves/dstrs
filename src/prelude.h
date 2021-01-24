@@ -50,4 +50,26 @@ static void set_file(const char* filename, const char* buffer, usize n) {
     fclose(file);
 }
 
+#define DEFINE_PRINT_ARRAY(fn, type, fmt)           \
+    static void print_array(type* array, usize n) { \
+        printf("[ ");                               \
+        for (usize i = 0; i < n; ++i) {             \
+            printf(fmt " ", array[i]);              \
+        }                                           \
+        printf("]\n");                              \
+    }
+
+#define DEFINE_COUNT_DUPLICATES(fn, type)               \
+    static u32 count_duplicates(type* array, usize n) { \
+        u32 result = 0;                                 \
+        for (usize i = 0; i < n; ++i) {                 \
+            for (usize j = i + 1; j < n; ++j) {         \
+                if (array[i] == array[j]) {             \
+                    ++result;                           \
+                }                                       \
+            }                                           \
+        }                                               \
+        return result;                                  \
+    }
+
 #endif
