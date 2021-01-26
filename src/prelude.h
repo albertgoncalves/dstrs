@@ -20,11 +20,6 @@ typedef FILE File;
 
 typedef struct timeval TimeValue;
 
-typedef struct {
-    f32 a;
-    f32 b;
-} PairF32;
-
 #define PI_F32 3.1415926535897932385f
 
 #define EXIT_IF(condition)         \
@@ -49,6 +44,12 @@ static void set_file(const char* filename, const char* buffer, usize n) {
     EXIT_IF(fwrite(buffer, sizeof(char), n, file) != n);
     fclose(file);
 }
+
+#define DEFINE_PAIR(label, type) \
+    typedef struct {             \
+        type a;                  \
+        type b;                  \
+    } label;
 
 #define DEFINE_PRINT_ARRAY(fn, type, fmt)           \
     static void print_array(type* array, usize n) { \
