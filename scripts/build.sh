@@ -4,6 +4,7 @@ set -eu
 
 flags=(
     "-fshort-enums"
+    "-g"
     "-march=native"
     "-O3"
     "-static"

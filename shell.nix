@@ -10,6 +10,7 @@ pkgsMusl.mkShell {
         clang_10
         cppcheck
         feh
+        linuxPackages.perf
         shellcheck
     ];
     shellHook = ''
