@@ -3,6 +3,7 @@
 set -eu
 
 flags=(
+    "-fanalyzer"
     "-fshort-enums"
     "-g"
     "-march=native"
@@ -27,6 +28,7 @@ flags=(
     "-Wlogical-op"
     "-Wmissing-declarations"
     "-Wmissing-include-dirs"
+    "-Wno-analyzer-possible-null-argument"
     "-Wno-unused-function"
     "-Wnull-dereference"
     "-Wpacked"
