@@ -1,7 +1,7 @@
 with import <nixpkgs> {};
 pkgsMusl.mkShell {
     buildInputs = [
-        (python38.withPackages(ps: with ps; [
+        (python38.withPackages (ps: with ps; [
             flake8
             matplotlib
             numpy
