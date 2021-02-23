@@ -2,6 +2,8 @@
 #define __PRELUDE_H__
 
 #include <math.h>
+#include <pthread.h>
+#include <stdatomic.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +21,9 @@ typedef double f64;
 typedef FILE File;
 
 typedef struct timeval TimeValue;
+
+typedef pthread_t     Thread;
+typedef atomic_size_t Atomic_usize;
 
 #define PI_F32 3.1415926535897932385f
 
