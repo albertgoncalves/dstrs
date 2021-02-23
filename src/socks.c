@@ -28,7 +28,6 @@ typedef struct {
 
 typedef struct {
     Result results[SIZE_RESULTS];
-    usize  sample[SIZE_SAMPLE];
     Thread threads[SIZE_THREADS];
     Block  blocks[SIZE_BLOCKS];
     char   buffer[SIZE_BUFFER];
@@ -121,37 +120,35 @@ i32 main(i32 n, const char** args) {
            sizeof(Memory));
     Memory* memory = calloc(1, sizeof(Memory));
     {
-        {
-            for (usize i = 0; i < SIZE_BLOCKS; ++i) {
-                memory->blocks[i] = (Block){
-                    .start = SIZE_CHUNK * i,
-                    .end = SIZE_CHUNK * (i + 1),
-                };
-            }
-            EXIT_IF(memory->blocks[SIZE_BLOCKS - 1].end != SIZE_RESULTS);
-            for (usize i = 0; i < SIZE_THREADS; ++i) {
-                pthread_create(&memory->threads[i], NULL, spawn, memory);
-            }
-            for (usize i = 0; i < SIZE_THREADS; ++i) {
-                pthread_join(memory->threads[i], NULL);
+        for (usize i = 0; i < SIZE_BLOCKS; ++i) {
+            memory->blocks[i] = (Block){
+                .start = SIZE_CHUNK * i,
+                .end = SIZE_CHUNK * (i + 1),
+            };
+        }
+        EXIT_IF(memory->blocks[SIZE_BLOCKS - 1].end != SIZE_RESULTS);
+        for (usize i = 0; i < SIZE_THREADS; ++i) {
+            pthread_create(&memory->threads[i], NULL, spawn, memory);
+        }
+        for (usize i = 0; i < SIZE_THREADS; ++i) {
+            pthread_join(memory->threads[i], NULL);
+        }
+    }
+    {
+        usize size = 0;
+        for (usize i = 0; i < SIZE_RESULTS; ++i) {
+            EXIT_IF(THRESHOLD_BUFFER < size);
+            if ((memory->results[i].output_singles == OBSERVED_SINGLES) &&
+                (memory->results[i].output_pairs == OBSERVED_PAIRS))
+            {
+                i32 line = sprintf(&memory->buffer[size],
+                                   "%u\n",
+                                   memory->results[i].input_total);
+                EXIT_IF(line <= 0);
+                size += (usize)line;
             }
         }
-        {
-            usize size = 0;
-            for (usize i = 0; i < SIZE_RESULTS; ++i) {
-                EXIT_IF(THRESHOLD_BUFFER < size);
-                if ((memory->results[i].output_singles == OBSERVED_SINGLES) &&
-                    (memory->results[i].output_pairs == OBSERVED_PAIRS))
-                {
-                    i32 line = sprintf(&memory->buffer[size],
-                                       "%u\n",
-                                       memory->results[i].input_total);
-                    EXIT_IF(line <= 0);
-                    size += (usize)line;
-                }
-            }
-            set_file(args[1], memory->buffer, size);
-        }
+        set_file(args[1], memory->buffer, size);
     }
     free(memory);
     return EXIT_SUCCESS;
