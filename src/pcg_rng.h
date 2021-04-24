@@ -42,9 +42,9 @@ static f64 get_random_uniform_f64(PcgRng* rng) {
 
 // NOTE: See `https://github.com/imneme/pcg-c-basic/blob/master/pcg_basic.c#L75-L109`.
 static u32 get_random_bounded_u32(PcgRng* rng, u32 bound) {
-    u32 threshold = (-bound) % bound;
+    const u32 threshold = (-bound) % bound;
     for (;;) {
-        u32 r = get_random_uniform_u32(rng);
+        const u32 r = get_random_uniform_u32(rng);
         if (threshold < r) {
             return r % bound;
         }
@@ -52,14 +52,14 @@ static u32 get_random_bounded_u32(PcgRng* rng, u32 bound) {
 }
 
 // NOTE: See `https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle`.
-#define DEFINE_SHUFFLE(fn, type)                         \
-    static void fn(PcgRng* rng, type* array, u32 n) {    \
-        for (u32 i = n - 1; 0 < i; --i) {                \
-            u32  j = get_random_bounded_u32(rng, i + 1); \
-            type t = array[i];                           \
-            array[i] = array[j];                         \
-            array[j] = t;                                \
-        }                                                \
+#define DEFINE_SHUFFLE(fn, type)                               \
+    static void fn(PcgRng* rng, type* array, u32 n) {          \
+        for (u32 i = n - 1; 0 < i; --i) {                      \
+            const u32  j = get_random_bounded_u32(rng, i + 1); \
+            const type t = array[i];                           \
+            array[i] = array[j];                               \
+            array[j] = t;                                      \
+        }                                                      \
     }
 
 #endif

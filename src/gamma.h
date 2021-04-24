@@ -8,14 +8,14 @@
 f32 get_random_gamma(PcgRng*, f32, f32);
 f32 get_random_gamma(PcgRng* rng, f32 alpha, f32 beta) {
     EXIT_IF((alpha <= 0.0f) || (beta <= 0.0f));
-    f32 u = get_random_uniform_f32(rng);
+    const f32 u = get_random_uniform_f32(rng);
     if (alpha < 1.0f) {
         return get_random_gamma(rng, 1.0f + alpha, beta) *
                powf(u, 1.0f / alpha);
     }
-    f32 v;
-    f32 d = alpha - (1.0f / 3.0f);
-    f32 c = (1.0f / 3.0f) / sqrtf(d);
+    f32       v;
+    const f32 d = alpha - (1.0f / 3.0f);
+    const f32 c = (1.0f / 3.0f) / sqrtf(d);
     for (;;) {
         f32 x;
         do {

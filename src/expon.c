@@ -2,7 +2,7 @@
 
 #define SIZE_BUFFER 262144
 
-const usize THRESHOLD_BUFFER = SIZE_BUFFER - 64;
+static const usize THRESHOLD_BUFFER = SIZE_BUFFER - 64;
 
 i32 main(i32 n, const char** args) {
     EXIT_IF(n < 2);
@@ -13,9 +13,9 @@ i32 main(i32 n, const char** args) {
         set_seed(&rng, get_microseconds(), 1);
         for (usize i = 0; i < 10000; ++i) {
             EXIT_IF(THRESHOLD_BUFFER < size);
-            i32 line = sprintf(&buffer[size],
-                               "%.6f\n",
-                               (f64)get_random_expon(&rng, 1.5f));
+            const i32 line = sprintf(&buffer[size],
+                                     "%.6f\n",
+                                     (f64)get_random_expon(&rng, 1.5f));
             EXIT_IF(line <= 0);
             size += (usize)line;
         }
