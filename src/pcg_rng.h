@@ -10,14 +10,14 @@ typedef struct {
 
 static PcgRng get_rng(void) {
     return (PcgRng){
-        .state = 9600629759793949339ull,
-        .increment = 15726070495360670683ull,
+        .state = 9600629759793949339llu,
+        .increment = 15726070495360670683llu,
     };
 }
 
 static u32 get_random_uniform_u32(PcgRng* rng) {
     const u64 state = rng->state;
-    rng->state = (state * 6364136223846793005ull) + (rng->increment | 1u);
+    rng->state = (state * 6364136223846793005llu) + (rng->increment | 1u);
     const u32 xor_shift = (u32)(((state >> 18u) ^ state) >> 27u);
     const u32 rotate = (u32)(state >> 59u);
     return (xor_shift >> rotate) | (xor_shift << ((-rotate) & 31u));
