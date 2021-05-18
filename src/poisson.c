@@ -11,7 +11,7 @@ i32 main(i32 n, const char** args) {
     {
         PcgRng rng = get_rng();
         set_seed(&rng, get_microseconds(), 1);
-        for (usize i = 0; i < 10000; ++i) {
+        for (usize i = 0; i < 100000; ++i) {
             EXIT_IF(THRESHOLD_BUFFER < size);
             const i32 line =
                 sprintf(&buffer[size], "%u\n", get_random_poisson(&rng, 2.25));

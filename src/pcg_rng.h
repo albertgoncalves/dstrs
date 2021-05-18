@@ -31,13 +31,49 @@ static void set_seed(PcgRng* rng, u64 state, u64 increment) {
     get_random_uniform_u32(rng);
 }
 
+// NOTE: See `https://github.com/hfinkel/sleef-bgq/blob/master/purec/sleefsp.c#L117-L130`.
+static f32 ldexpf_(f32 x, i32 q) {
+    i32 m = q >> 31;
+    m = (((m + q) >> 6) - m) << 4;
+    q = q - (m << 2);
+    m += 127;
+    m = m < 0 ? 0 : m;
+    m = m > 255 ? 255 : m;
+    union {
+        f32 as_f32;
+        i32 as_i32;
+    } u;
+    u.as_i32 = m << 23;
+    x = x * u.as_f32 * u.as_f32 * u.as_f32 * u.as_f32;
+    u.as_i32 = (q + 0x7F) << 23;
+    return x * u.as_f32;
+}
+
 // NOTE: See `https://www.pcg-random.org/using-pcg-c-basic.html#generating-doubles`.
 static f32 get_random_uniform_f32(PcgRng* rng) {
-    return ldexpf((f32)get_random_uniform_u32(rng), -32);
+    return ldexpf_((f32)get_random_uniform_u32(rng), -32);
+}
+
+// NOTE: See `https://github.com/hfinkel/sleef-bgq/blob/master/purec/sleefdp.c#L113-L126`.
+static f64 ldexp_(f64 x, i64 q) {
+    i64 m = q >> 31l;
+    m = (((m + q) >> 9l) - m) << 7;
+    q = q - (m << 2l);
+    m += 0x3FFl;
+    m = m < 0l ? 0l : m;
+    m = m > 0x7FFl ? 0x7FFl : m;
+    union {
+        f64 as_f64;
+        i64 as_i64;
+    } u;
+    u.as_i64 = m << 52l;
+    x = x * u.as_f64 * u.as_f64 * u.as_f64 * u.as_f64;
+    u.as_i64 = (q + 0x3FFl) << 52l;
+    return x * u.as_f64;
 }
 
 static f64 get_random_uniform_f64(PcgRng* rng) {
-    return ldexp((f64)get_random_uniform_u32(rng), -32);
+    return ldexp_((f64)get_random_uniform_u32(rng), -32);
 }
 
 // NOTE: See `https://github.com/imneme/pcg-c-basic/blob/master/pcg_basic.c#L75-L109`.
