@@ -3,7 +3,6 @@
 set -eu
 
 flags=(
-    "-fanalyzer"
     "-fshort-enums"
     "-g"
     "-march=native"
