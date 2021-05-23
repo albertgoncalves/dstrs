@@ -1,6 +1,8 @@
 #include "beta.h"
 #include "nbinom.h"
 
+#include <sys/sysinfo.h>
+
 // NOTE: See `http://www.sumsar.net/blog/2014/10/tiny-data-and-the-socks-of-karl-broman/`.
 
 typedef struct {
@@ -14,8 +16,8 @@ typedef struct {
 
 #define SIZE_RESULTS 1000000
 #define SIZE_SAMPLE  200
-#define SIZE_BLOCKS  20
-#define SIZE_THREADS 3
+#define SIZE_BLOCKS  100
+#define SIZE_THREADS 16
 #define SIZE_BUFFER  524288
 
 static const usize SIZE_CHUNK = SIZE_RESULTS / SIZE_BLOCKS;
@@ -127,10 +129,14 @@ i32 main(i32 n, const char** args) {
             };
         }
         EXIT_IF(memory->blocks[SIZE_BLOCKS - 1].end != SIZE_RESULTS);
-        for (usize i = 0; i < SIZE_THREADS; ++i) {
+        i32 m = get_nprocs() - 1;
+        if ((m < 2) || (SIZE_THREADS < m)) {
+            exit(EXIT_FAILURE);
+        }
+        for (i32 i = 0; i < m; ++i) {
             pthread_create(&memory->threads[i], NULL, spawn, memory);
         }
-        for (usize i = 0; i < SIZE_THREADS; ++i) {
+        for (i32 i = 0; i < m; ++i) {
             pthread_join(memory->threads[i], NULL);
         }
     }
