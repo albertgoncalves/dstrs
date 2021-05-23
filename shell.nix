@@ -1,5 +1,5 @@
 with import <nixpkgs> {};
-pkgsMusl.mkShell {
+mkShell.override { stdenv = llvmPackages_11.stdenv; } {
     buildInputs = [
         (python38.withPackages (ps: with ps; [
             flake8
@@ -7,7 +7,6 @@ pkgsMusl.mkShell {
             numpy
             seaborn
         ]))
-        clang_10
         cppcheck
         feh
         linuxPackages.perf
