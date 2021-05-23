@@ -17,14 +17,14 @@ static PcgRng get_rng(void) {
 
 static u32 get_random_uniform_u32(PcgRng* rng) {
     const u64 state = rng->state;
-    rng->state = (state * 6364136223846793005llu) + (rng->increment | 1u);
+    rng->state = (state * 6364136223846793005llu) + (rng->increment | 1);
     const u32 xor_shift = (u32)(((state >> 18u) ^ state) >> 27u);
     const u32 rotate = (u32)(state >> 59u);
     return (xor_shift >> rotate) | (xor_shift << ((-rotate) & 31));
 }
 
 static void set_seed(PcgRng* rng, u64 state, u64 increment) {
-    rng->state = 0u;
+    rng->state = 0;
     rng->increment = (increment << 1u) | 1u;
     get_random_uniform_u32(rng);
     rng->state += state;
