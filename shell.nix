@@ -7,7 +7,6 @@ mkShell.override { stdenv = llvmPackages_11.stdenv; } {
             numpy
             seaborn
         ]))
-        cppcheck
         feh
         linuxPackages.perf
         shellcheck
